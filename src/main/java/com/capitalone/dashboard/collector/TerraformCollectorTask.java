@@ -142,7 +142,9 @@ public class TerraformCollectorTask extends CollectorTask<Collector> {
 
 			try {
 				urlStr = TERRAFORM_API_URL + ORGANIZATION_URI;
+				LOG.debug("Making API Call (Organization) @ " + urlStr);
 				JSONObject organizationsObject = (JSONObject) terraformClient.getData(urlStr, apiToken);
+				LOG.debug("Recieved API Call Data (Organization) @ " + organizationsObject);
 
 				if (organizationsObject != null) {
 
@@ -156,7 +158,9 @@ public class TerraformCollectorTask extends CollectorTask<Collector> {
 						String orgId = saveOrganizationIfNotExists(terraformCollectorItem.getId(), organizationObject);
 
 						urlStr = TERRAFORM_API_URL + ORGANIZATION_URI + "/" + orgId + WORKSPACE_URI;
+						LOG.debug("Making API Call (Workspace) @ " + urlStr);
 						JSONObject workspacesObject = (JSONObject) terraformClient.getData(urlStr, apiToken);
+						LOG.debug("Recieved API Call Data (Workspace) @ " + workspacesObject);
 
 						if (workspacesObject != null) {
 							/*

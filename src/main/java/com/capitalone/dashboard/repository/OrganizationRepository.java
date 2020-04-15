@@ -10,14 +10,13 @@ import com.capitalone.dashboard.model.CollectorItem;
 import com.capitalone.dashboard.model.Organization;
 import com.capitalone.dashboard.model.Workspace;
 
-public interface OrganizationRepository<T extends Organization>  extends CrudRepository<T, ObjectId> {
+public interface OrganizationRepository<T extends Organization> extends CrudRepository<T, ObjectId> {
 
-	Organization findById(String id); 
-	
-	Organization findByOrganizationId(String id); 
-	
-	@Query(value="{ 'collectorItemId' : ?0}")
+	Organization findById(String id);
+
+	Organization findByOrganizationId(String id);
+
+	@Query(value = "{ 'collectorItemId' : ?0}")
 	List<Organization> findByCollectorItemId(ObjectId collectorItemId);
-
 
 }

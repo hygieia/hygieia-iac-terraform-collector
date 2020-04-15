@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/*Each Terraform app has Organization > Workspace > run jobs*/
 @Document(collection = "run")
 public class Run extends BaseModel {
 	

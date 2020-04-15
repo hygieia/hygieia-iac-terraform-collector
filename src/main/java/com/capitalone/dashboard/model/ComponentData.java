@@ -2,6 +2,7 @@ package com.capitalone.dashboard.model;
 
 import com.capitalone.dashboard.enums.STATUS;
 
+/*The Source of data to specifc to each chart component rendered on the screen*/
 public class ComponentData {
 	
 	private STATUS status;

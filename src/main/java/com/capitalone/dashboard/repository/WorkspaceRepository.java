@@ -8,15 +8,14 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.capitalone.dashboard.model.Workspace;
 
-public interface WorkspaceRepository<T extends Workspace>  extends CrudRepository<T, ObjectId> {
+public interface WorkspaceRepository<T extends Workspace> extends CrudRepository<T, ObjectId> {
 
-	Workspace findById(String id); 
-	
-	
-	@Query(value="{ 'workspaceId' : ?0}")
-	Workspace findByWorkspaceId(String workspaceId); 
-	
-	@Query(value="{ 'organization' : ?0}")
+	Workspace findById(String id);
+
+	@Query(value = "{ 'workspaceId' : ?0}")
+	Workspace findByWorkspaceId(String workspaceId);
+
+	@Query(value = "{ 'organization' : ?0}")
 	List<Workspace> findByOrganization(String organization);
 
 }

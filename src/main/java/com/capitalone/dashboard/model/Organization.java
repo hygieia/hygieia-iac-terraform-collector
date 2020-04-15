@@ -8,6 +8,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/*Each Terraform app has Organization > Workspace > run jobs*/
 @Document(collection = "organization")
 public class Organization extends BaseModel {
 	

@@ -8,6 +8,7 @@ import org.json.simple.JSONObject;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/*Each Terraform app has Organization > Workspace > run jobs*/
 @Document(collection = "workspace")
 public class Workspace extends BaseModel {
 	

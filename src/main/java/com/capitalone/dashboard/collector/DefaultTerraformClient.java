@@ -32,20 +32,25 @@ import com.capitalone.dashboard.util.Supplier;
 @Component
 public class DefaultTerraformClient implements TerraformClient {
     private static final Log LOG = LogFactory.getLog(DefaultTerraformClient.class);
-
-
     private final RestTemplate restTemplate ;
-
     MultiValueMap<String, String> headerMultiValueMap;
     HttpEntity<String> httpEntity;
 
     @Autowired
-    public DefaultTerraformClient(
-                               Supplier<RestOperations> restOperationsSupplier) {
+    public DefaultTerraformClient(Supplier<RestOperations> restOperationsSupplier) {
         this.restTemplate =  new RestTemplate();
     }
     
+    /**
+     * Gets runs for a given Workspace
+     * @param url
+     * @param apiToken
+     * @throws RestClientException
+     * @throws MalformedURLException
+     * @throws HygieiaException
+     */
     public JSONObject getData(String url, String apiToken) throws RestClientException, MalformedURLException, HygieiaException{
+    	LOG.debug("Making rest call to URL ::" + url);
     	ResponseEntity<String> responseJSON = makeRestCall(url, apiToken);
     	if (responseJSON != null) 
     		return parseAsObject(responseJSON);
@@ -53,14 +58,6 @@ public class DefaultTerraformClient implements TerraformClient {
 			return null;
     }
     
-
-    /**
-     * Gets runs for a given Workspace
-     * @param workspaceId
-     * @throws RestClientException
-     * @throws MalformedURLException
-     * @throws HygieiaException
-     */
     
     private ResponseEntity<String> makeRestCall(String url, String apiToken) {
         // Basic Auth only.
@@ -109,7 +106,6 @@ public class DefaultTerraformClient implements TerraformClient {
         Object value = json.get(key);
         return value == null ? null : value.toString();
     }
-
 
     /**
      * Date utility

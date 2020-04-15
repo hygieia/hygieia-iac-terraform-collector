@@ -20,18 +20,9 @@ public class Terraform {
 	
 	private List<Organization> orgList;
 	
-	private DataPoint dataPoint;
 
 	public List<Organization> getOrgList() {
 		return orgList;
-	}
-
-	public DataPoint getDataPoint() {
-		return dataPoint;
-	}
-
-	public void setDataPoint(DataPoint dataPoint) {
-		this.dataPoint = dataPoint;
 	}
 
 	public void setOrgList(List<Organization> orgList) {
