@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RefreshScope
-@ConfigurationProperties(prefix = "ìac")
+@ConfigurationProperties(prefix = "iac")
 public class TerraformSettings {
     private String proxy;
     private String proxyPort;
