@@ -2,14 +2,16 @@ package com.capitalone.dashboard.service;
 
 import com.capitalone.dashboard.model.ComponentData;
 
-public interface TerraformService {
+ interface TerraformService {
 
-	public ComponentData getTerraformDetails();
+	 ComponentData getTerraformDetails();
 
-	public ComponentData getTerraformDetailCountRun(String workspaceId, String status, String timeline, Integer range);
+	 ComponentData getTerraformDetailCountRun(String workspaceId, String status, String timeline, Integer range);
 
-	public ComponentData getTerraformDetailAggregateRun(String workspaceId, String status, String timeline,Integer range);
+	 ComponentData getTerraformDetailAggregateRun(String workspaceId, String status, String timeline,Integer range);
 
-	public ComponentData getCardDetails();
+	 ComponentData getCardDetails();
+
+	 ComponentData getTerraformDetailTrend();
 
 }

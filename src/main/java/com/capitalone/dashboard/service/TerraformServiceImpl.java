@@ -1,14 +1,21 @@
 package com.capitalone.dashboard.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.capitalone.dashboard.collector.TerraformCollectorTask;
 import com.capitalone.dashboard.enums.STATUS;
 import com.capitalone.dashboard.model.ComponentData;
 import com.capitalone.dashboard.model.Organization;
@@ -40,6 +47,8 @@ public class TerraformServiceImpl implements TerraformService{
 
 	@Autowired
 	TerraformCustomRepository terraformCustomRepository;
+	
+	SimpleDateFormat plainDateFormat = new SimpleDateFormat("MM-dd-yyyy 00:00:00");
 
 	private boolean isConfigSet() {
 		return collectorItemRepository.findAll().iterator().hasNext();
@@ -88,6 +97,141 @@ public class TerraformServiceImpl implements TerraformService{
 		}
 		
 		componentData.setData(terraform);
+		return componentData;
+	}
+	
+	
+	/**
+	 *
+	 */
+	@Override
+	public ComponentData getTerraformDetailTrend() {
+		ComponentData componentData = new ComponentData();
+		
+		
+		if (!isConfigSet()) {
+			componentData.setStatus(STATUS.NO_CONFIG);
+			return componentData;
+		}
+		
+		int totalRun = 0;
+		componentData.setStatus(STATUS.PASS);
+		List<Organization> orgList = (List<Organization>) organizationRepository.findAll();
+		
+		JSONArray parentArray = new JSONArray();		
+		
+		
+		
+		/* Logic: Find all Organizations, Workspace & Job Runs */
+				
+				JSONObject orgObject = new JSONObject();
+				
+		
+				final JSONArray orgCount = new JSONArray();
+
+				
+				orgList.forEach(org -> {
+					Date date = new Date(org.getCreatedAt());
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(date);
+					try {
+						String month = (cal.get(Calendar.MONTH) + 1) < 10 ? "0" + (cal.get(Calendar.MONTH) + 1) : String.valueOf((cal.get(Calendar.MONTH) + 1));
+					date = 	plainDateFormat.parse(month + "-" + cal.get(Calendar.DATE)+ "-" + cal.get(Calendar.YEAR)+ " " + "00:00:00");
+						org.setCreatedAt(date.getTime());
+						
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				});
+				
+				
+				orgList.stream().collect(Collectors.groupingBy(Organization::getCreatedAt)).forEach((l, org) ->{
+					Series series = new Series();
+					series.setName(new Date(l));
+					series.setValue(org.size());
+					orgCount.add(series);
+				});
+				
+				orgObject.put("name", "Organizations");
+				orgObject.put("series", orgCount);
+				
+				parentArray.add(orgObject);
+				
+				JSONObject wsObject = new JSONObject();
+					
+				List<Workspace> workSpaceList =  (List<Workspace>)  workspaceRepository.findAll();
+				
+				workSpaceList.forEach(ws -> {
+					
+					Date date = new Date(ws.getCreatedAt());
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(date);
+					try {
+						String month = (cal.get(Calendar.MONTH) + 1) < 10 ? "0" + (cal.get(Calendar.MONTH) + 1) : String.valueOf((cal.get(Calendar.MONTH) + 1));
+						
+						date = 	plainDateFormat.parse(month + "-" + cal.get(Calendar.DATE)+ "-" + cal.get(Calendar.YEAR)+ " " + "00:00:00");
+						 ws.setCreatedAt(date.getTime());
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				});
+				
+				JSONArray wsCount = new JSONArray();
+				
+				workSpaceList.stream().collect(Collectors.groupingBy(Workspace::getCreatedAt)).forEach((l, ws) ->{
+					Series series = new Series();
+					series.setName(new Date(l));
+					series.setValue(ws.size());
+					wsCount.add(series);
+				});
+				
+				wsObject.put("name", "Workspaces");
+				wsObject.put("series", wsCount);
+				
+				
+				parentArray.add(wsObject);
+				JSONObject runObject = new JSONObject();
+				
+				
+						List<Run> runList =  (List<Run>)  runRepository.findAll();
+						
+						runList.forEach(run -> {
+							Date date = new Date(run.getCreatedAt());
+							Calendar cal = Calendar.getInstance();
+							cal.setTime(date);
+							try {
+								String month = (cal.get(Calendar.MONTH) + 1) < 10 ? "0" + (cal.get(Calendar.MONTH) + 1) : String.valueOf((cal.get(Calendar.MONTH) + 1));
+								date = 	plainDateFormat.parse(month + "-" + cal.get(Calendar.DATE)+ "-" + cal.get(Calendar.YEAR)+ " " + "00:00:00");
+								
+							} catch (ParseException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							run.setCreatedAt(date.getTime());
+						});
+						
+						final JSONArray runCount = new JSONArray();
+						
+						runList.stream().collect(Collectors.groupingBy(Run::getCreatedAt)).forEach(
+								(l, run) -> {
+							System.out.println(l);
+							System.out.println(run);
+							
+							Series temp = new Series();
+							temp.setName(new Date(l));
+							temp.setValue(run.size());
+							
+						});
+						
+						runObject.put("name", "Jobs");
+						runObject.put("series", runCount);
+						parentArray.add(runObject);
+						
+		componentData.setData(parentArray);
 		return componentData;
 	}
 	

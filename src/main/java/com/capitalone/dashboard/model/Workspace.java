@@ -18,7 +18,7 @@ public class Workspace extends BaseModel {
 	
 	private String Name;
 	
-	private Date createdAt;
+	private Long createdAt;
 	
 	@Transient
 	private List<Run> runList;
@@ -91,17 +91,19 @@ public class Workspace extends BaseModel {
 
 
 
-	public Date getCreatedAt() {
+	public Long getCreatedAt() {
 		return createdAt;
 	}
 
 
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(Long createdAt) {
 		this.createdAt = createdAt;
 	}
 
-	
+
+
+ 
 	
 
 	 

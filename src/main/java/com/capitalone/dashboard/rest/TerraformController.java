@@ -65,6 +65,12 @@ public class TerraformController {
 		LOG.debug("Call Recieved @ /collector/terraform/run/aggregate :: Params - Workspace :" + workspace + ", status: " + status  + ", timeline" + timeline + ", range: " + range );
 		return ResponseEntity.ok(terraformService.getTerraformDetailAggregateRun(workspace, status, timeline, range));
 	}
+	
+	@RequestMapping(value = "/collector/terraform/trend", method = GET, produces = APPLICATION_JSON_VALUE)
+	public ResponseEntity<ComponentData> getTerraformDetailTrend() {
+		LOG.debug("Call Recieved @ /collector/terraform/trend");
+		return ResponseEntity.ok(terraformService.getTerraformDetailTrend());
+	}
 
 	@RequestMapping(value = "/collector/terraform/card", method = GET, produces = APPLICATION_JSON_VALUE)
 	public ResponseEntity<ComponentData> getCardDetails() {

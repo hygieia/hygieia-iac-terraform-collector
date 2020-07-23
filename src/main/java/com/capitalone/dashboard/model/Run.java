@@ -14,7 +14,7 @@ public class Run extends BaseModel {
 	
 	private String status;
 	
-	private Date createdAt;
+	private Long createdAt;
 
 	public String getRunId() {
 		return runId;
@@ -41,15 +41,15 @@ public class Run extends BaseModel {
 		this.status = status;
 	}
 
-	public Date getCreatedAt() {
+	public Long getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(Long createdAt) {
 		this.createdAt = createdAt;
 	}
- 
 
+	 
 	 
 		
 }

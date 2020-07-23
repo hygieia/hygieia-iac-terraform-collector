@@ -233,7 +233,7 @@ public class TerraformCollectorTask extends CollectorTask<Collector> {
 				organization.setOrganizationId(Id);
 				organization.setName(name);
 				
-				organization.setCreatedAt(dateFormat.parse(createdAt));
+				organization.setCreatedAt(dateFormat.parse(createdAt).getTime());
 				
 				organizationRepository.save(organization);
 			
@@ -260,7 +260,7 @@ public class TerraformCollectorTask extends CollectorTask<Collector> {
 				workspace.setName(name);
 				workspace.setOrganization(organization);
 					
-				workspace.setCreatedAt(dateFormat.parse(createdAt));
+				workspace.setCreatedAt(dateFormat.parse(createdAt).getTime());
 				
 				workspaceRepository.save(workspace);
 		
@@ -288,7 +288,7 @@ public class TerraformCollectorTask extends CollectorTask<Collector> {
 				run.setWorkspaceId(workspaceId);
 				run.setStatus(status); 
 				
-				run.setCreatedAt(dateFormat.parse(createdAt));
+				run.setCreatedAt(dateFormat.parse(createdAt).getTime());
 				
 				runRepository.save(run);
 			

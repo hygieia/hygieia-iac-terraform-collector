@@ -19,7 +19,7 @@ public class Organization extends BaseModel {
 	
 	private String name;
 	
-	private Date createdAt;
+	private Long createdAt;
 	
 	@org.springframework.data.annotation.Transient
 	private List<Workspace> workSpaceList;
@@ -54,11 +54,11 @@ public class Organization extends BaseModel {
 		this.name = name;
 	}
 
-	public Date getCreatedAt() {
+	public Long getCreatedAt() {
 		return createdAt;
 	}
 
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(Long createdAt) {
 		this.createdAt = createdAt;
 	}
 
